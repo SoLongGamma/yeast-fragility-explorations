@@ -27,7 +27,7 @@ the iterative refinement process — and I want that to be visible.
 The full conversation that produced this repository (in **Korean**) is
 linked here:
 
-> 👉 [Claude conversation transcript](LINK_TO_CONVERSATION_HERE)
+> 👉 [Claude conversation transcript](https://claude.ai/share/b3322610-47cf-4ba2-92c2-a658fb157bec)
 
 If you read Korean, the conversation is more informative than the code,
 because it includes the hostile self-critique step where I explicitly
