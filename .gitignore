@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+.ipynb_checkpoints/
+
+# Don't track regenerable simulation outputs (CSVs / JSONs); figures are fine
+v0.1/results/*.csv
+v0.1/results/*.json
+product/yeastfort/.streamlit/
+
+# Streamlit
+.streamlit/secrets.toml
