@@ -1,0 +1,70 @@
+# Dataset catalog
+#
+# This file tracks every fermentation_run JSON in `data/sources/`.
+# Each entry records the original source, the license, and a
+# pipeline-use mode so downstream code can gate access.
+#
+# When you add a new run, add an entry here too. The CI test
+# `tests/test_sources_catalog.py` will fail otherwise.
+#
+# License values must match the schema enum. Be conservative — when
+# in doubt, "All rights reserved" is the safe default.
+
+runs:
+
+  - run_id: kccm12638_heme_pH55
+    file: kccm12638_heme_pH55.json
+    source_type: published_paper
+    citation: |
+      [PLACEHOLDER] Heme-industrial S. cerevisiae paper provided by user
+      in May 2026. Full citation pending.
+    doi: null
+    url: null
+    license: "All rights reserved"
+    use_mode: research_only_no_redistribution
+    extracted_by: "Manual digitization from Fig. 5A / Suppl. Fig. 4A"
+    notes: |
+      Data digitized visually from journal figures, not from the
+      publisher's supplementary CSV. The *numerical facts* are not
+      under copyright; the *figure expression* is. As long as we
+      do not redistribute the figure itself, manual digitization is
+      established practice (cf. WebPlotDigitizer usage in published
+      meta-analyses).
+
+      We do NOT include the source PDF in this repository. Users
+      who want to verify the digitization can obtain the paper from
+      the publisher directly.
+
+
+# Use-mode taxonomy (referenced above):
+#
+#   research_only_no_redistribution
+#     Use locally for calibration / model fitting. Do not bundle the
+#     raw JSON in a redistributed product. Do not include in commercial
+#     SaaS responses.
+#
+#   research_and_redistribution
+#     CC-BY-style. Can ship inside the repo and use in any mode,
+#     provided attribution is preserved.
+#
+#   commercial_ok
+#     CC0, public domain, or explicit commercial license.
+#
+#   user_supplied
+#     The dataset was uploaded by the user of the tool. Owned by them,
+#     used by the tool, never redistributed by us.
+
+
+# Adding new data:
+#
+#   1. Create `data/sources/<run_id>.json` matching
+#      schema/fermentation_run.schema.json.
+#   2. Add an entry to this file with a real citation and license.
+#   3. Run `python tools/check_sources.py` to validate everything.
+#   4. Commit both files in the same commit.
+#
+# Removing data:
+#
+#   If a license issue is discovered, remove the JSON file from
+#   `data/sources/`. Leave the entry here with `removed: true` so
+#   downstream tools know to skip silently.

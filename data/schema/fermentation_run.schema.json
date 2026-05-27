@@ -1,0 +1,230 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/SoLongGamma/yeast-fragility-explorations/schemas/fermentation_run.schema.json",
+  "title": "Yeast Fermentation Run",
+  "description": "Universal data format for a single yeast fed-batch (or batch) fermentation run. Any data source — published paper, lab notebook, in-house experiment — should be coerced into this shape before entering the calibration / recommender pipeline.",
+  "type": "object",
+  "required": ["run_id", "strain", "conditions", "time_series", "source"],
+  "properties": {
+
+    "run_id": {
+      "type": "string",
+      "description": "Unique identifier for this run within the dataset (e.g. 'kim2024_pH55_run1').",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+
+    "strain": {
+      "type": "object",
+      "required": ["species", "strain_id"],
+      "properties": {
+        "species": {
+          "type": "string",
+          "description": "Latin species name.",
+          "examples": ["Saccharomyces cerevisiae", "Pichia pastoris"]
+        },
+        "strain_id": {
+          "type": "string",
+          "description": "Strain catalog ID. Prefer canonical IDs (KCCM, ATCC, NCYC, etc.).",
+          "examples": ["KCCM 12638", "ATCC 200060", "S288C", "wild-type"]
+        },
+        "genetic_modifications": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Any non-wild-type modifications. Empty array if WT.",
+          "examples": [["delta-HEM4", "+HEM12 overexpression"]]
+        },
+        "parental_strain": {
+          "type": ["string", "null"],
+          "description": "If this is a derivative, the parent strain's catalog ID."
+        }
+      }
+    },
+
+    "target_product": {
+      "type": ["object", "null"],
+      "description": "What the run was trying to produce. Null if the goal was just biomass.",
+      "properties": {
+        "name": {"type": "string", "examples": ["heme", "ethanol", "recombinant protein X"]},
+        "unit": {"type": "string", "examples": ["mg/L", "g/L"]}
+      }
+    },
+
+    "conditions": {
+      "type": "object",
+      "required": ["culture_mode"],
+      "properties": {
+        "culture_mode": {
+          "type": "string",
+          "enum": ["batch", "fed-batch", "continuous"],
+          "description": "Operating mode."
+        },
+        "reactor_volume_L": {
+          "type": ["number", "null"],
+          "description": "Working volume in litres."
+        },
+        "initial_glucose_g_per_L": {"type": ["number", "null"]},
+        "feed_solution_composition": {
+          "type": ["object", "null"],
+          "description": "What was in the feed bottle.",
+          "properties": {
+            "glucose_g_per_L": {"type": ["number", "null"]},
+            "yeast_extract_g_per_L": {"type": ["number", "null"]},
+            "peptone_g_per_L": {"type": ["number", "null"]},
+            "other": {
+              "type": "object",
+              "additionalProperties": {"type": "number"},
+              "description": "Free-form 'component name → concentration g/L' map."
+            }
+          }
+        },
+        "temperature_C": {
+          "oneOf": [
+            {"type": "number", "description": "Constant temperature."},
+            {"type": "string", "enum": ["time_varying"], "description": "See time_series."}
+          ]
+        },
+        "pH_setpoint": {
+          "oneOf": [
+            {"type": "number"},
+            {"type": "string", "enum": ["time_varying", "uncontrolled"]}
+          ]
+        },
+        "aeration_vvm": {"type": ["number", "null"]},
+        "agitation_rpm": {
+          "oneOf": [
+            {"type": "number"},
+            {"type": "object",
+             "properties": {"min": {"type": "number"}, "max": {"type": "number"}}}
+          ]
+        }
+      }
+    },
+
+    "time_series": {
+      "type": "object",
+      "required": ["time_h"],
+      "description": "Parallel arrays. All arrays must have the same length as time_h. Use null for missing values.",
+      "properties": {
+        "time_h": {
+          "type": "array",
+          "items": {"type": "number"},
+          "description": "Sample timestamps in hours from inoculation."
+        },
+        "biomass_g_per_L_DCW": {
+          "type": "array",
+          "items": {"type": ["number", "null"]},
+          "description": "Dry cell weight. Preferred biomass measure."
+        },
+        "biomass_OD600": {
+          "type": "array",
+          "items": {"type": ["number", "null"]},
+          "description": "Use only if DCW unavailable. Note: OD→DCW conversion is strain-specific."
+        },
+        "glucose_g_per_L": {
+          "type": "array",
+          "items": {"type": ["number", "null"]}
+        },
+        "feed_rate_mL_per_h": {
+          "type": "array",
+          "items": {"type": ["number", "null"]},
+          "description": "Instantaneous feed pump rate, sampled at each time_h point."
+        },
+        "temperature_C": {
+          "type": "array",
+          "items": {"type": ["number", "null"]}
+        },
+        "pH": {
+          "type": "array",
+          "items": {"type": ["number", "null"]}
+        },
+        "dissolved_oxygen_pct": {
+          "type": "array",
+          "items": {"type": ["number", "null"]}
+        },
+        "product_concentration": {
+          "type": "array",
+          "items": {"type": ["number", "null"]},
+          "description": "Units must match target_product.unit."
+        },
+        "byproducts": {
+          "type": "object",
+          "description": "Optional. Map of byproduct name → concentration array (g/L).",
+          "additionalProperties": {
+            "type": "array",
+            "items": {"type": ["number", "null"]}
+          }
+        }
+      }
+    },
+
+    "outcome_summary": {
+      "type": "object",
+      "description": "Convenience: end-of-run summary numbers. Should be computable from time_series; included separately for sanity-checking.",
+      "properties": {
+        "final_biomass_g_per_L": {"type": ["number", "null"]},
+        "final_product": {"type": ["number", "null"]},
+        "max_biomass_g_per_L": {"type": ["number", "null"]},
+        "max_product": {"type": ["number", "null"]},
+        "total_duration_h": {"type": ["number", "null"]}
+      }
+    },
+
+    "source": {
+      "type": "object",
+      "required": ["type", "citation"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["published_paper", "preprint", "lab_internal", "user_upload", "synthetic"]
+        },
+        "citation": {
+          "type": "string",
+          "description": "Full citation or descriptor."
+        },
+        "doi": {"type": ["string", "null"]},
+        "url": {"type": ["string", "null"]},
+        "license": {
+          "type": "string",
+          "enum": ["CC-BY", "CC-BY-SA", "CC-BY-NC", "CC-BY-NC-SA", "CC0",
+                   "All rights reserved", "Internal — explicit permission",
+                   "User-supplied", "Synthetic — generated by this project"],
+          "description": "License of the original data. Used by the pipeline to gate downstream use (e.g. exclude CC-BY-NC data when running in commercial mode)."
+        },
+        "extracted_by": {
+          "type": "string",
+          "description": "Who/what produced this JSON from the original source.",
+          "examples": ["WebPlotDigitizer v4.6, manual extraction by [name]",
+                       "supplementary CSV download from publisher",
+                       "user upload"]
+        },
+        "extraction_date_iso": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+
+    "notes": {
+      "type": "string",
+      "description": "Free-form notes about this run — failures, anomalies, deviations from protocol."
+    },
+
+    "quality_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "low_resolution_time_series",
+          "missing_glucose_data",
+          "missing_feed_rate",
+          "digitized_from_figure",
+          "biomass_only_OD",
+          "single_replicate",
+          "non_standard_strain_id",
+          "approximated_initial_conditions"
+        ]
+      },
+      "description": "Pre-set tags that downstream code can use to filter or weight runs."
+    }
+  }
+}

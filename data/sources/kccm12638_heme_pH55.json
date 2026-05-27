@@ -1,0 +1,62 @@
+{
+  "run_id": "kccm12638_heme_pH55",
+  "strain": {
+    "species": "Saccharomyces cerevisiae",
+    "strain_id": "KCCM 12638",
+    "genetic_modifications": [],
+    "parental_strain": null
+  },
+  "target_product": {
+    "name": "heme",
+    "unit": "mg/L"
+  },
+  "conditions": {
+    "culture_mode": "fed-batch",
+    "reactor_volume_L": null,
+    "initial_glucose_g_per_L": 20,
+    "feed_solution_composition": {
+      "glucose_g_per_L": 350,
+      "yeast_extract_g_per_L": 280,
+      "peptone_g_per_L": 140,
+      "other": {}
+    },
+    "temperature_C": 25,
+    "pH_setpoint": 5.5,
+    "aeration_vvm": 3.5,
+    "agitation_rpm": {"min": 700, "max": 1200}
+  },
+  "time_series": {
+    "_comment": "Values DIGITIZED FROM Fig. 5A of the user-supplied paper. Sampling at roughly 5-hour intervals where readable. These are visual approximations, not author-supplied data. Quality flag: digitized_from_figure.",
+    "time_h": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75],
+    "biomass_g_per_L_DCW": [2, 5, 15, 30, 45, 55, 70, 85, 95, 100, 105, 110, 105, 100, 95, 90],
+    "glucose_g_per_L": [20, 11, 4, 0.5, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+    "feed_rate_mL_per_h": [0, 0, 0, 9, 12, 13, 14, 14, 14, 15, 15, 15, 15, 16, 16, 16],
+    "product_concentration": [0, 0, 2, 8, 15, 22, 30, 35, 42, 45, 48, 50, 52, 53, 53, 50],
+    "byproducts": {
+      "ethanol_g_per_L": [0, 1, 9, 11, 10, 9, 8, 8, 7, 7, 8, 9, 9, 10, 10, 11],
+      "glycerol_g_per_L": [0, 0.5, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+    }
+  },
+  "outcome_summary": {
+    "final_biomass_g_per_L": 90,
+    "final_product": 50,
+    "max_biomass_g_per_L": 110,
+    "max_product": 53,
+    "total_duration_h": 75
+  },
+  "source": {
+    "type": "published_paper",
+    "citation": "PLACEHOLDER — fill in full citation of the heme-industrial S. cerevisiae paper user provided",
+    "doi": null,
+    "url": null,
+    "license": "All rights reserved",
+    "extracted_by": "Manual digitization from Fig. 5A and Suppl. Fig. 4A (rough visual reading, ±10% error expected)",
+    "extraction_date_iso": "2026-05-27"
+  },
+  "notes": "Highest-yielding of the three pH variants in this paper. Feed begins ~10h after inoculation when initial glucose is depleted. The feed schedule is step-wise (see Suppl. Fig. 4A).",
+  "quality_flags": [
+    "digitized_from_figure",
+    "single_replicate",
+    "approximated_initial_conditions"
+  ]
+}

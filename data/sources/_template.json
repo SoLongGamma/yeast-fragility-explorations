@@ -1,0 +1,64 @@
+{
+  "_comment": "Template — copy this file, rename to <your_run_id>.json, fill in. Required fields marked. Set null where you genuinely don't know; do not guess.",
+
+  "run_id": "REPLACE_ME_unique_identifier",
+
+  "strain": {
+    "species": "Saccharomyces cerevisiae",
+    "strain_id": "REPLACE_ME (e.g. ATCC 200060, your-lab-strain-A)",
+    "genetic_modifications": [],
+    "parental_strain": null
+  },
+
+  "target_product": {
+    "name": "REPLACE_ME (e.g. heme, ethanol, biomass)",
+    "unit": "REPLACE_ME (e.g. mg/L, g/L)"
+  },
+
+  "conditions": {
+    "culture_mode": "fed-batch",
+    "reactor_volume_L": null,
+    "initial_glucose_g_per_L": null,
+    "feed_solution_composition": {
+      "glucose_g_per_L": null,
+      "yeast_extract_g_per_L": null,
+      "peptone_g_per_L": null,
+      "other": {}
+    },
+    "temperature_C": 30,
+    "pH_setpoint": 5.0,
+    "aeration_vvm": null,
+    "agitation_rpm": null
+  },
+
+  "time_series": {
+    "_comment": "All arrays below must have the same length as time_h. Use null for individual missing measurements. At minimum, time_h + one biomass field is required.",
+    "time_h": [0, 5, 10, 15, 20],
+    "biomass_g_per_L_DCW": [null, null, null, null, null],
+    "glucose_g_per_L": [null, null, null, null, null],
+    "feed_rate_mL_per_h": [null, null, null, null, null],
+    "product_concentration": [null, null, null, null, null]
+  },
+
+  "outcome_summary": {
+    "final_biomass_g_per_L": null,
+    "final_product": null,
+    "max_biomass_g_per_L": null,
+    "max_product": null,
+    "total_duration_h": null
+  },
+
+  "source": {
+    "type": "lab_internal",
+    "citation": "REPLACE_ME (e.g. 'Smith Lab, internal experiment 2025-03')",
+    "doi": null,
+    "url": null,
+    "license": "Internal — explicit permission",
+    "extracted_by": "REPLACE_ME (name / how generated)",
+    "extraction_date_iso": "2026-05-27"
+  },
+
+  "notes": "Free-form notes about this run.",
+
+  "quality_flags": []
+}
