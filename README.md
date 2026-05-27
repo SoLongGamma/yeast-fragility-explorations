@@ -1,6 +1,7 @@
 # yeast-fragility-explorations
 
 **🧫 Try it live:** https://yeast-fragility.streamlit.app/
+**🧪 Try the Recommender:** https://yeast-fragility-explorations-cpcqreadyojn3gnsvqmdyc.streamlit.app/
 
 Explorations of fragility, hormesis, and reproducibility in
 *S. cerevisiae* fermentation — by way of agent-based simulation.
@@ -56,6 +57,11 @@ is preserved in [`v0.1/docs/self_critique.md`](v0.1/docs/self_critique.md).
 
 - [`docs/what_this_is_not.md`](docs/what_this_is_not.md) — Explicit
   list of things this project does *not* do or claim.
+
+- [`data/`](data/) — Universal intake schema for fermentation run data,
+  with one digitized example. Designed so any new dataset (from a paper,
+  a lab, or the user) plugs into the same pipeline. See
+  [`data/README.md`](data/README.md).
 
 ---
 
