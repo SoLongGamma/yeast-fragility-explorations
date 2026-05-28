@@ -1,7 +1,7 @@
 # yeast-fragility-explorations
 
-**🧫 Try it live:** https://yeast-fragility.streamlit.app/
-**🧪 Try the Recommender:** https://yeast-fragility-explorations-cpcqreadyojn3gnsvqmdyc.streamlit.app/
+**🧫 YeastFort scorer (diagnose):** https://yeast-fragility-explorations-cpcqreadyojn3gnsvqmdyc.streamlit.app/
+**🧪 Recommender (suggest schedules):** https://[recommender-url].streamlit.app/
 
 Explorations of fragility, hormesis, and reproducibility in
 *S. cerevisiae* fermentation — by way of agent-based simulation.
