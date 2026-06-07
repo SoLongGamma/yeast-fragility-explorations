@@ -19,3 +19,6 @@ product/yeastfort/.streamlit/
 
 # Streamlit
 .streamlit/secrets.toml
+*.csv
+snapshot2/
+progress_snapshot/
